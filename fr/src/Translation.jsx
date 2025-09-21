@@ -82,6 +82,7 @@ export const TranslationProvider = ({ children }) => {
     sidebar_progress: "Progress",
     sidebar_login: "Login",
     language: "Language",
+    sidebar_home_btn: "Go to home"
   };
 
   // Translate function

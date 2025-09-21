@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { TranslationProvider, TranslationContext } from "./Translation";
 import Dashboard from "./components/page";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import Login from "./components/Login";
 
 function AppContent() {
   const { translations, language, setLanguage } = useContext(TranslationContext);
@@ -189,6 +190,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<AppContent />} />
           <Route path="/learn" element={<Dashboard />} />
+          <Route path="/Login" element={<Login />} />
         </Routes>
       </Router>
     </TranslationProvider>

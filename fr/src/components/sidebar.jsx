@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { BookOpen, Mic, MessageCircle, Award, Home } from "lucide-react";
 import { TranslationContext } from "../Translation";
+import { useNavigate } from "react-router-dom";
 
-export default function Sidebar({ onSelect, selected, translations }) {
+export default function Sidebar({ onSelect, selected, translations, user }) {
   const { t } = useContext(TranslationContext) || {};
+  const navigate = useNavigate();
 
-  // Use translations if available, else fallback to English
   const sidebarOptions = [
     { icon: <Home className="w-5 h-5 mr-2" />, label: translations?.sidebar_home || "Home" },
     { icon: <MessageCircle className="w-5 h-5 mr-2" />, label: translations?.sidebar_chat || "Chat Practice" },
@@ -35,12 +36,18 @@ export default function Sidebar({ onSelect, selected, translations }) {
           </button>
         ))}
       </nav>
-      <div className="mt-auto pt-8">
+      <div className="mt-auto pt-8 flex flex-col gap-2">
         <button
           className="w-full flex items-center justify-center px-4 py-2 rounded-lg bg-green-700 text-white hover:bg-green-800 transition font-semibold"
-          onClick={() => alert('Login clicked')}
+          onClick={() => user ? null : navigate("/Login")}
         >
-          {translations?.sidebar_login || "Login"}
+          {user ? user.name : (translations?.sidebar_login || "Login")}
+        </button>
+        <button
+          className="w-full flex items-center justify-center px-4 py-2 rounded-lg bg-white text-green-700 border border-green-700 hover:bg-green-100 transition font-semibold mt-2"
+          onClick={() => navigate("/")}
+        >
+          {translations?.sidebar_home_btn || "Go to Home"}
         </button>
       </div>
     </aside>
