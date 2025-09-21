@@ -12,5 +12,9 @@ CORS(app)
 from routes.chatbot import chatbot_bp
 app.register_blueprint(chatbot_bp)
 
+# Import and register the translation blueprint
+from routes.translation import translation_bp
+app.register_blueprint(translation_bp)
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

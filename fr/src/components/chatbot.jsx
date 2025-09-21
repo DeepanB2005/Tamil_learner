@@ -77,11 +77,7 @@ function Chatbot() {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-green-100 via-white to-green-300">
-      {/* Header */}
-      <header className="bg-green-800 text-red-50 shadow-md p-4 flex justify-center items-center sticky top-0 z-10">
-        <Bot className="mr-2" />
-        <h1 className="text-xl font-bold">TAMIL Chat</h1>
-      </header>
+
 
       {/* Chat Section */}
       <div className="flex-grow p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-transparent">
@@ -96,7 +92,7 @@ function Chatbot() {
             }`}
           >
             {msg.sender === "bot" && (
-              <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mr-2 shadow">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-full flex items-center justify-center mr-2 shadow">
                 <Bot size={18} />
               </div>
             )}
@@ -104,15 +100,15 @@ function Chatbot() {
             <div
               className={`max-w-xs md:max-w-md p-3 rounded-2xl shadow-md text-sm md:text-base whitespace-pre-wrap ${
                 msg.sender === "user"
-                  ? "bg-green-600 text-white rounded-br-none"
-                  : "bg-gray-100 text-gray-900 rounded-bl-none"
+                  ? "bg-gradient-to-r from-blue-500 to-green-600 text-white rounded-br-none"
+                  : "bg-gradient-to-r from-orange-200 to-green-100 text-gray-900 rounded-bl-none"
               }`}
             >
               {msg.text}
             </div>
 
             {msg.sender === "user" && (
-              <div className="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center ml-2 shadow">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-600 text-white rounded-full flex items-center justify-center ml-2 shadow">
                 <User size={18} />
               </div>
             )}
@@ -124,7 +120,7 @@ function Chatbot() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ repeat: Infinity, duration: 1 }}
-            className="flex items-center space-x-2 bg-gray-100 p-3 rounded-2xl shadow-md w-fit"
+            className="flex items-center space-x-2 bg-green-300 p-3 rounded-2xl shadow-md w-fit"
           >
             <div className="animate-bounce w-2 h-2 bg-gray-500 rounded-full"></div>
             <div className="animate-bounce w-2 h-2 bg-gray-500 rounded-full delay-150"></div>
@@ -136,11 +132,11 @@ function Chatbot() {
       </div>
 
       {/* Input Section */}
-      <div className="p-4 bg-white border-t flex items-center space-x-2 sticky bottom-0">
+      <div className="p-4 bg-green-100 border-t flex items-center space-x-2 sticky bottom-0">
         <button
           onClick={toggleListening}
           className={`p-3 rounded-full shadow-md transition transform hover:scale-105 active:scale-95 ${
-            isListening ? "bg-red-500 text-white" : "bg-green-100 text-green-600"
+            isListening ? "bg-red-500 text-white" : "bg-red-700 text-green-600"
           }`}
         >
           <Mic />
@@ -162,7 +158,7 @@ function Chatbot() {
 
         <button
           onClick={() => sendMessage()}
-          className="p-3 rounded-full bg-green-600 text-white shadow-md hover:bg-green-700 transition transform hover:scale-105 active:scale-95"
+          className="p-3 rounded-full bg-gradient-to-r from-blue-500 to-green-600 text-white shadow-md hover:bg-gradient-to-r from-blue-500 to-green-700 transition transform hover:scale-105 active:scale-95"
           disabled={isLoading}
         >
           <Send />
