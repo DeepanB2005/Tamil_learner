@@ -73,6 +73,23 @@ export const TranslationProvider = ({ children }) => {
     footer_links: "Home | About | Contact | Privacy Policy",
     footer_copyright: "© 2025 AI Tamil Learning Platform. All Rights Reserved.",
 
+
+  // Vowels section
+  vowels_title: "Tamil Vowels",
+  Ah: "Ah",
+  Aa: "Aa",
+  Ih: "Ih",
+  Ee: "Ee",
+  Uh: "Uh",
+  Oo: "Oo",
+  Eh: "Eh",
+  Eeh: "Eeh",
+  Ai: "Ai",
+  Oh: "Oh",
+  Ooh: "Ooh",
+  Au: "Au",
+
+
     // Sidebar
     sidebar_title: "Tamil Learning",
     sidebar_home: "Home",
@@ -82,7 +99,89 @@ export const TranslationProvider = ({ children }) => {
     sidebar_progress: "Progress",
     sidebar_login: "Login",
     language: "Language",
-    sidebar_home_btn: "Go to home"
+    sidebar_home_btn: "Go to home",
+
+    // Alphabet & Pronunciation
+    alphabet_title: "Tamil Alphabet & Pronunciation",
+    vowels_btn: "Uyir Ezhuthukkal (Vowels)",
+    consonants_btn: "Mei Ezhuthukkal (Consonants)",
+    compounds_btn: "Uyirmei Ezhuthukkal (Compounds)",
+
+    // Tamil letters
+    a: "a",
+    aa: "aa",
+    i: "i",
+    ee: "ee",
+    u: "u",
+    oo: "oo",
+    e: "e",
+    ae: "ae",
+    ai: "ai",
+    o: "o",
+    oa: "oa",
+    au: "au",
+
+    // Consonants
+    ka: "ka",
+    nga: "nga",
+    cha: "cha",
+    nya: "nya",
+    ta: "ta",
+    na: "na",
+    tha: "tha",
+    na2: "na",
+    pa: "pa",
+    ma: "ma",
+    ya: "ya",
+    ra: "ra",
+    la: "la",
+    va: "va",
+    zha: "zha",
+    la: "la",
+    ra: "ra",
+    na3: "na",
+
+    // Double letters
+    kaa: "kaa",
+    ki: "ki",
+    kee: "kee",
+    ku: "ku",
+    koo: "koo",
+    ke: "ke",
+    kae: "kae",
+    kai: "kai",
+    ko: "ko",
+    koa: "koa",
+    kau: "kau",
+    maa: "maa",
+    chi: "chi",
+    tho: "tho",
+
+    // Grammar section
+    grammar_basics_title: "Tamil Grammar Basics",
+    wordFormation_section: "Word Formation",
+    pronouns_section: "Pronouns",
+    verbs_section: "Verbs",
+    postpositions_section: "Postpositions",
+    sentenceStructures_section: "Sentence Structures",
+    "stone + plural suffix = stones": "stone + plural suffix = stones",
+    "tree + locative = on the tree": "tree + locative = on the tree",
+    "I": "I",
+    "You (informal)": "You (informal)",
+    "He/She (formal)": "He/She (formal)",
+    "They": "They",
+    "to go": "to go",
+    "I go (present)": "I go (present)",
+    "I went (past)": "I went (past)",
+    "I will go (future)": "I will go (future)",
+    "to/for": "to/for",
+    "in/at": "in/at",
+    "with": "with",
+    "on/over": "on/over",
+    "I eat food (SOV)": "I eat food (SOV)",
+    "He goes to school (SOV)": "He goes to school (SOV)",
+    back_btn: "Back to Lessons",
+
   };
 
   // Translate function

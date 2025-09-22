@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { motion } from "framer-motion";
 import { Mic, Send, Bot, User } from "lucide-react";
+import { TranslationContext } from "../Translation"; // adjust path if needed
 
 function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [selectedLang, setSelectedLang] = useState("en");
   const recognitionRef = useRef(null);
   const chatEndRef = useRef(null);
+
+  const { translations } = useContext(TranslationContext);
 
   // Scroll to bottom on new message
   useEffect(() => {
@@ -25,23 +29,60 @@ function Chatbot() {
       recognitionRef.current.interimResults = false;
       recognitionRef.current.lang = "en-US";
 
-      recognitionRef.current.onresult = (event) => {
+      recognitionRef.current.onresult = async (event) => {
         const transcript = event.results[0][0].transcript;
-        setInput(transcript);
-        sendMessage(transcript); // auto-send after silence
+        // Translate transcript to selected language for input display
+        let translatedInput = transcript;
+        if (selectedLang !== "en") {
+          translatedInput = await translateText(transcript, selectedLang);
+        }
+        setInput(translatedInput);
+        sendMessage(translatedInput); // auto-send after silence
       };
 
       recognitionRef.current.onend = () => {
         setIsListening(false);
       };
     }
-  }, []);
+    // Add selectedLang as dependency so it updates recognition handler
+  }, [selectedLang]);
+
+  // Helper: Translate text
+  const translateText = async (text, target_lang) => {
+    if (target_lang === "en") return text;
+    try {
+      const res = await fetch("http://localhost:5000/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: [text], target_lang }),
+      });
+      const data = await res.json();
+      return data.translated_text[0];
+    } catch {
+      return text;
+    }
+  };
 
   const sendMessage = async (msg = input) => {
     if (!msg.trim()) return;
 
-    const userMessage = { text: msg, sender: "user" };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    // Translate user message to English if needed
+    let msgForBot = msg;
+    let translatedUserMsg = msg;
+    if (selectedLang !== "en") {
+      msgForBot = await translateText(msg, "en");
+      translatedUserMsg = await translateText(msg, selectedLang);
+    }
+
+    // Always translate input to selected language (even if English)
+    let inputTranslated = await translateText(msg, selectedLang);
+
+    const userMessage = {
+      text: msg,
+      sender: "user",
+      translated: inputTranslated !== msg ? inputTranslated : null,
+    };
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
@@ -49,15 +90,25 @@ function Chatbot() {
       const response = await fetch("http://localhost:5000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg }),
+        body: JSON.stringify({ message: msgForBot }),
       });
       const data = await response.json();
-      const botMessage = { text: data.response, sender: "bot" };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+      // Translate bot reply if needed
+      let translatedBotMsg = data.response;
+      if (selectedLang !== "en") {
+        translatedBotMsg = await translateText(data.response, selectedLang);
+      }
+
+      const botMessage = {
+        text: data.response,
+        sender: "bot",
+        translated: selectedLang !== "en" ? translatedBotMsg : null,
+      };
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error("Error:", error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
+      setMessages((prev) => [
+        ...prev,
         { text: "⚠️ Sorry, something went wrong.", sender: "bot" },
       ]);
     } finally {
@@ -77,8 +128,6 @@ function Chatbot() {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-green-100 via-white to-green-300">
-
-
       {/* Chat Section */}
       <div className="flex-grow p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-transparent">
         {messages.map((msg, index) => (
@@ -105,6 +154,11 @@ function Chatbot() {
               }`}
             >
               {msg.text}
+              {msg.translated && (
+                <div className="mt-1 text-xs text-gray-700 italic">
+                  {msg.translated}
+                </div>
+              )}
             </div>
 
             {msg.sender === "user" && (
@@ -133,6 +187,18 @@ function Chatbot() {
 
       {/* Input Section */}
       <div className="p-4 bg-green-100 border-t flex items-center space-x-2 sticky bottom-0">
+        {/* Language Selector */}
+        <select
+          value={selectedLang}
+          onChange={(e) => setSelectedLang(e.target.value)}
+          className="px-2 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          <option value="en">English</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="fr">Français (French)</option>
+          {/* Add more languages as needed */}
+        </select>
+
         <button
           onClick={toggleListening}
           className={`p-3 rounded-full shadow-md transition transform hover:scale-105 active:scale-95 ${

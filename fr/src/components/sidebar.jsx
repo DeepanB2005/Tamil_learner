@@ -10,10 +10,15 @@ export default function Sidebar({ onSelect, selected, translations, user }) {
   const sidebarOptions = [
     { icon: <Home className="w-5 h-5 mr-2" />, label: translations?.sidebar_home || "Home" },
     { icon: <MessageCircle className="w-5 h-5 mr-2" />, label: translations?.sidebar_chat || "Chat Practice" },
-    { icon: <Mic className="w-5 h-5 mr-2" />, label: translations?.sidebar_pronunciation || "Pronunciation" },
-    { icon: <BookOpen className="w-5 h-5 mr-2" />, label: translations?.sidebar_lessons || "Lessons" },
+    { icon: <BookOpen className="w-5 h-5 mr-2" />, label: translations?.sidebar_lessons || "Lessons" }, // index 3
     { icon: <Award className="w-5 h-5 mr-2" />, label: translations?.sidebar_progress || "Progress" },
   ];
+
+  const handleSelect = (idx) => {
+    if (onSelect) {
+      onSelect(idx);
+    }
+  };
 
   return (
     <aside className="w-80 bg-green-50 h-full shadow-lg flex flex-col py-8 px-4">
@@ -29,7 +34,7 @@ export default function Sidebar({ onSelect, selected, translations, user }) {
                 ? "bg-green-600 text-white"
                 : "hover:bg-green-100 text-green-800"
             }`}
-            onClick={() => onSelect && onSelect(idx)}
+            onClick={() => handleSelect(idx)}
           >
             {opt.icon}
             {opt.label}
